@@ -1,16 +1,37 @@
 :feelpp: Feel++
-= {feelpp} myproject 
+= TP Elasticité Linéaire
+:stem: latexmath
 
-image:https://github.com/feelpp/feelpp-project/workflows/CI/badge.svg[CI]
+== Partie 1
 
-This is a {feelpp} Template Project. It serves as a template for {feelpp} projects.
+On considère le domaine suivant soit stem:[\Omega=++]++0, L++[++\times++]++ 0,1++[++] et l'on note stem:[\Gamma_{i}] les quatre côtés du bord, numérotés dans le sens inverse des aiguille d'une montre et avec stem:[\Gamma_{1}] le bord du bas. Le problème d'élasticité linéaire s'écrit:
+stem:[
+\begin{aligned}
+\nabla \cdot \sigma(u) &=f \mbox{ dans } \Omega\\
+\sigma(u) &=2 \mu \varepsilon(u)+\lambda(\nabla \cdot u) \mathrm{Id}\\
+u&=0 \mbox{ sur } \Gamma_{1} \\
+\sigma(u) n=0 \mbox{ sur } stem:[\Gamma_{2} \cup \Gamma_{3} \cup \Gamma_{3}]
+\end{aligned}
+]
+avec stem:[\lambda, \mu] les coefficients de Lamé
 
-== Features
+. Créer le maillage du domaine stem:[\Omega].
+. Ecrire la formulation variationnelle, puis mettre en place la configuration pour {feelpp} en prenant pour données stem:[f=(0,1)^{T}] et stem:[\mu=\lambda=1]
+. Visualiser la déformation du maillage obtenue à l'aide la fonction WarpByVector
 
-* script rename.sh to rename the project
-* cmake environment
-** cpack configuration
-** ctest configuration
-* antora environment
-* github actions
-* vscode integration using container
+image::paraview-warpbyvector.png[]
+
+. Ajouter sur le maillage déformé la visualisation  de la norme de Frobénius du tenseur des contrainte stem:[\sigma(u)] ainsi que des champs Von-Mises et Tresca. Commenter en vous aidant d'une petite recherche sur les champs précédents (Von-Mises...) par exemple sur Wikipedia.
+
+== Partie 2: Perte de coercivité. 
+
+On ajoute à présent deux trous circulaires dans le domaine précédent.
+
+.Poutre trouée
+image::poutre-avectrous.png[]
+
+On fixe la poutre sur les bords gauche et droite et on la pince: on exerce donc une pression constante
+sur le bord du bas (force dirigée vers le haut) et sur le bord du haut (force dirigée vers le bas).
+
+. Créer le maillage et la configuration {feelpp} associé au problème.
+. Comparer les solutions obtenues avec stem:[\lambda / \mu=1] et stem:[\lambda / \mu=10^{3} .] Afficher les lignes de niveau associé au déplacement vectical stem:[u_{2} .] À cette fin, on utilisera le préconditionneur diagonal (Jacobi) `--solid.pc-type jacobi` et on affichera les itérations `--solid.ksp-monitor=1`. Commenter.

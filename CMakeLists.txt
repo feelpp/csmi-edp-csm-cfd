@@ -26,7 +26,7 @@ cmake_minimum_required(VERSION 3.12)
 project(myproject VERSION 0.1.0)
 set(PROJECT_SHORTNAME "p")
 
-OPTION(USE_FEELPP_TOOLBOXES "Enable Feel++ Toolboxes" OFF)
+OPTION(USE_FEELPP_TOOLBOXES "Enable Feel++ Toolboxes" ON)
 
 if ( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR} )
   if ( USE_FEELPP_TOOLBOXES )
@@ -48,9 +48,6 @@ if ( NOT TARGET check )
   add_custom_target(check)
 endif()
 
-
-add_subdirectory( src )
-add_subdirectory( docs )
 
 # extra ignored files
 list(APPEND CPACK_SOURCE_IGNORE_FILES

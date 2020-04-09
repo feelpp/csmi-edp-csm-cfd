@@ -1,6 +1,4 @@
-FROM feelpp/feelpp:latest
-# OR if toolboxes are required
-# FROM feelpp/feelpp-toolboxes:latest
+FROM feelpp/feelpp-toolboxes:latest
 
 USER root
 
