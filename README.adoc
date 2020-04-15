@@ -114,7 +114,7 @@ image::square.png[]
 
 * Sur la partie bleue du bord stem:[\left(\Gamma_{i n}\right),] on impose un profile de vitesse parabolique stem:[ g_{D}(x, y)=(4 y(1-y), 0)^{T}] 
 * Sur les parties noires du bord stem:[\left(\Gamma_{0}\right),] on impose des conditions de Dirichlet homogène : stem:[g_{D}(x, y)=(0,0)^{T}] 
-* Sur la partie rouge du bord (\Gamma stem:[_{\text {out}}] ) aucune contrainte n'est exercée (sortie libre): cela correspond à des conditions de type Neumann homogène : stem:[g_{N}(x, y)=(0,0)^{T} .] 
+* Sur la partie rouge du bord (stem:[\Gamma _{\text {out}}] ) aucune contrainte n'est exercée (sortie libre): cela correspond à des conditions de type Neumann homogène : stem:[g_{N}(x, y)=(0,0)^{T} .] 
 * Enfin, aucune force extérieure n'est exercée
 sur le fluide : stem:[f=0] 
 
