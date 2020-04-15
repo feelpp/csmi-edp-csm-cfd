@@ -2,6 +2,8 @@
 = TP 3
 :stem: latexmath
 
+TIP: pour lire ce document en html, ouvrir le fichier `README.html` dans le repository.
+
 == Elasticité Linéaire
 
 === Partie 1
@@ -131,7 +133,98 @@ et les paramètres sont stem:[\nu=0.05] et stem:[T=10s.]
 [start=2]
 . Programmer la méthode avec la toolbox fluid(CFD) en mode Navier-Stokes
 . Calculer le trainée et la portance(les composantes de la force qui s'applique sur l'obstacle), les afficher et commenter
-. Diminuer la viscosité du fluide(prenez quatre valeurs différentes stem:[5e-3, 5e-4, 1e-4, 5e-5]), qu'observez vous ? vous pourrez commenter en introduisant le nombre de Reynolds stem:[Re=\frac{\rho U L}{\nu}] avec stem:[\rho=1, U=1, L=0.4] et en vous document sur ce dernier.
+. Diminuer la viscosité du fluide(prenez quatre valeurs différentes stem:[5e-3, 5e-4, 1e-4, 5e-5]), qu'observez vous ? Commenter en introduisant le nombre de Reynolds stem:[Re=\frac{\rho U L}{\nu}] avec stem:[\rho=1, U=1, L=0.4] et en vous documentant sur ce dernier.
 . Calculer le trainée et la portance(les composantes de la force qui s'applique sur l'obstacle), les afficher et commenter
 
 TIP: la force qui s'applique sur l'obstacle peut être calculée via l'étape de postprocessing de {feelpp}, voir http://docs.feelpp.org/toolboxes/0.108/cfd/toolbox/#_post_processing[ici].
+
+Vous utiliserez ce fichier de configuration comme base pour vos différentes simulations
+
+.fichier de configuration cfd.cfg
+[source,ini]
+----
+directory=toolboxes/fluid/flow_past_square/cfd3/P2P1G1
+
+[case]
+dimension=2
+
+[fluid]
+filename=$cfgdir/cfd3.json
+
+mesh.filename=$cfgdir/cfd.geo
+gmsh.hsize=0.03
+linearsystem-cst-update=false
+jacobian-linear-update=false
+solver=Oseen #Oseen,Picard,Newton
+pc-type=lu #gasm,lu
+
+[fluid.bdf]
+order=2
+#strategy-high-order-start=1
+
+[ts]
+time-step=0.01
+time-final=10
+#restart=true
+restart.at-last-save=true
+#time-initial=0.0002
+#save.freq=2
+----
+
+la ligne de commande :
+----
+mpîrun -np 4 feelpp_toolbox_fluid --config-file cfd.cfg
+----
+
+== Execution des codes 
+
+Vous pouvez travailler sous vscode avec container ou bien sur atlas.math.unistra.fr.
+
+=== VSCode/Docker
+
+Concernant VSCode/Docker, afin d'accéder à vos résultats:
+
+* lancer un terminal sous vscode. le répertoire dans lequel vous êtes est accessible depuis l'extérieur (et donc eg paraview pour la visu).
+* taper la commande
+-----
+export FEELPP_REPOSITORY=$PWD
+-----
+
+
+
+
+=== VSCode Atlas
+
+Concernant la connection à atlas.math.unistra.fr,
+vous avez eu un compte créé lors du S1 qui est toujours ouvert.
+Vous vous connectez sur ce compte via https://services-numeriques.unistra.fr/documentations/toutes-les-documentations/services-au-poste-de-travail/acces-distants-securises-vpn.html[VPN].
+
+une fois la connection vpn en place, créer une connection remote-ssh via vscode sur atlas.math.unistra.fr ou bien connectez vous via ssh.
+
+==== Module {feelpp}
+
+Pour accéder aux applications {feelpp}, tapez
+----
+module load feelpp-toolboxes/develop_gcc830_openmpi402
+----
+
+Les applications `feelpp_toolbox_fluid` et `feelpp_toolbox_solid` sont à présent disponibles.
+
+`git` est disponible et vous pourrez cloner votre repo du TP sur Atlas.
+
+==== Visualisation
+
+Nous n'avons pas encore d'outils de visualisation à distance, pour visualiser les résultats il vous faut 
+rapatrier les résultats de calculs sur votre machine et les visualiser avec paraview.
+Pour cela, utilisez `rsync` qui ne va rapatrier que les fichiers qui ont été modifiés
+
+.Ligne de commande avec rsync pour rapatrier les données
+----
+rsync -avz <votre login>atlas.math.unistra.fr:~/feel $HOME/
+----
+
+Cette commande va créer le répertoire `$HOME/feel` et va télécharger les fichiers depuis la dernière commande `rsync`.
+
+
+Pour visualiser le contenu de fichier CSV (les mesures de force par exemple) vous pouvez utiliser excel, google/spreadsheet, python/matplotlib ou paraview. 
+En abcisse le temps en ordonnée la série que vous désirez observer.

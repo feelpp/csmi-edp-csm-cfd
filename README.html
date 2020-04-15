@@ -441,6 +441,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>TP 3</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+pour lire ce document en html, ouvrir le fichier <code>README.html</code> dans le repository.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_elasticité_linéaire">Elasticité Linéaire</h2>
 <div class="sectionbody">
@@ -671,7 +687,7 @@ sur le fluide : \(f=0\)</p>
 <p>Calculer le trainée et la portance(les composantes de la force qui s&#8217;applique sur l&#8217;obstacle), les afficher et commenter</p>
 </li>
 <li>
-<p>Diminuer la viscosité du fluide(prenez quatre valeurs différentes \(5e-3, 5e-4, 1e-4, 5e-5\)), qu&#8217;observez vous ? vous pourrez commenter en introduisant le nombre de Reynolds \(Re=\frac{\rho U L}{\nu}\) avec \(\rho=1, U=1, L=0.4\) et en vous document sur ce dernier.</p>
+<p>Diminuer la viscosité du fluide(prenez quatre valeurs différentes \(5e-3, 5e-4, 1e-4, 5e-5\)), qu&#8217;observez vous ? Commenter en introduisant le nombre de Reynolds \(Re=\frac{\rho U L}{\nu}\) avec \(\rho=1, U=1, L=0.4\) et en vous documentant sur ce dernier.</p>
 </li>
 <li>
 <p>Calculer le trainée et la portance(les composantes de la force qui s&#8217;applique sur l&#8217;obstacle), les afficher et commenter</p>
@@ -690,13 +706,133 @@ la force qui s&#8217;applique sur l&#8217;obstacle peut être calculée via l&#8
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Vous utiliserez ce fichier de configuration comme base pour vos différentes simulations</p>
+</div>
+<div class="listingblock">
+<div class="title">fichier de configuration cfd.cfg</div>
+<div class="content">
+<pre class="highlight"><code class="language-ini" data-lang="ini">directory=toolboxes/fluid/flow_past_square/cfd3/P2P1G1
+
+[case]
+dimension=2
+
+[fluid]
+filename=$cfgdir/cfd3.json
+
+mesh.filename=$cfgdir/cfd.geo
+gmsh.hsize=0.03
+linearsystem-cst-update=false
+jacobian-linear-update=false
+solver=Oseen #Oseen,Picard,Newton
+pc-type=lu #gasm,lu
+
+[fluid.bdf]
+order=2
+#strategy-high-order-start=1
+
+[ts]
+time-step=0.01
+time-final=10
+#restart=true
+restart.at-last-save=true
+#time-initial=0.0002
+#save.freq=2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>la ligne de commande :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mpîrun -np 4 feelpp_toolbox_fluid --config-file cfd.cfg</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_execution_des_codes">Execution des codes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Vous pouvez travailler sous vscode avec container ou bien sur atlas.math.unistra.fr.</p>
+</div>
+<div class="sect2">
+<h3 id="_vscodedocker">VSCode/Docker</h3>
+<div class="paragraph">
+<p>Concernant VSCode/Docker, afin d&#8217;accéder à vos résultats:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>lancer un terminal sous vscode. le répertoire dans lequel vous êtes est accessible depuis l&#8217;extérieur (et donc eg paraview pour la visu).</p>
+</li>
+<li>
+<p>taper la commande</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export FEELPP_REPOSITORY=$PWD</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vscode_atlas">VSCode Atlas</h3>
+<div class="paragraph">
+<p>Concernant la connection à atlas.math.unistra.fr,
+vous avez eu un compte créé lors du S1 qui est toujours ouvert.
+Vous vous connectez sur ce compte via <a href="https://services-numeriques.unistra.fr/documentations/toutes-les-documentations/services-au-poste-de-travail/acces-distants-securises-vpn.html">VPN</a>.</p>
+</div>
+<div class="paragraph">
+<p>une fois la connection vpn en place, créer une connection remote-ssh via vscode sur atlas.math.unistra.fr ou bien connectez vous via ssh.</p>
+</div>
+<div class="sect3">
+<h4 id="_module_feel">Module Feel++</h4>
+<div class="paragraph">
+<p>Pour accéder aux applications Feel++, tapez</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>module load feelpp-toolboxes/develop_gcc830_openmpi402</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Les applications <code>feelpp_toolbox_fluid</code> et <code>feelpp_toolbox_solid</code> sont à présent disponibles.</p>
+</div>
+<div class="paragraph">
+<p><code>git</code> est disponible et vous pourrez cloner votre repo du TP sur Atlas.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_visualisation">Visualisation</h4>
+<div class="paragraph">
+<p>Nous n&#8217;avons pas encore d&#8217;outils de visualisation à distance, pour visualiser les résultats il vous faut
+rapatrier les résultats de calculs sur votre machine et les visualiser avec paraview.
+Pour cela, utilisez <code>rsync</code> qui ne va rapatrier que les fichiers qui ont été modifiés</p>
+</div>
+<div class="listingblock">
+<div class="title">Ligne de commande avec rsync pour rapatrier les données</div>
+<div class="content">
+<pre>rsync -avz &lt;votre login&gt;atlas.math.unistra.fr:~/feel $HOME/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cette commande va créer le répertoire <code>$HOME/feel</code> et va télécharger les fichiers depuis la dernière commande <code>rsync</code>.</p>
+</div>
+<div class="paragraph">
+<p>Pour visualiser le contenu de fichier CSV (les mesures de force par exemple) vous pouvez utiliser excel, google/spreadsheet, python/matplotlib ou paraview.
+En abcisse le temps en ordonnée la série que vous désirez observer.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-15 06:43:52 +0200
+Last updated 2020-04-15 09:43:30 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
