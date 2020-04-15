@@ -22,7 +22,7 @@ RUN apt-get update \
     && apt-get -y install git iproute2 procps lsb-release \
     #\
     # Install C++ tools\
-        && apt-get -y install build-essential npm \
+        && apt-get -y install build-essential \
     #\
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.\
     && groupadd --gid $USER_GID $USERNAME \
@@ -43,5 +43,3 @@ RUN apt-get update \
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
-
-RUN npm i -g @antora/cli@2.2 @antora/site-generator-default@2.2; 
