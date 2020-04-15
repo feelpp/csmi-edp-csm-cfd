@@ -85,13 +85,13 @@ u &=g \text{ sur } \partial \Omega
 . Faire une analyse de convergence en vitesse et pression pour les éléments stem:[P_{2} / P_{1}].
 
 
-=== Partie 2: Stokes instationnaire. 
+=== Partie 2: Navier-Stokes instationnaire. 
 
 On considère le problème suivant
 [stem]
 ++++
 \begin{aligned} 
-\partial_{t} u-\nu \Delta u+\nabla p &=f, & & \text { dans } \Omega \times[0, T] \\ 
+\partial_{t} u + ( u \cdot \nabla ) u -\nu \Delta u+\nabla p &=f, & & \text { dans } \Omega \times[0, T] \\ 
 \nabla \cdot u &=0 & & \\ 
 u &=g_{D}, & & \operatorname{sur} \Gamma_{i n} \times[0, T] \\ 
 u &=0, & & \operatorname{sur} \Gamma_{0} \times[0, T] \\ 
@@ -106,7 +106,7 @@ où
 
 Le bord du domaine est décomposée en 3 partie stem:[: \partial \Omega=\Gamma_{i n} \cup \Gamma_{\text {out}} \cup \Gamma_{0}].
 
-. Effectuer une semi-discrétisation en temps et écrire le problème variationnel.
+. Effectuer une semi-discrétisation en temps et écrire le problème variationnel. On approchera stem:[u^{n+1}\cdot \nabla u^{n+1}] par stem:[u^{n}\cdot \nabla u^{n+1}].
 
 On considère le domaine suivant
 
@@ -126,9 +126,12 @@ u_{i n i t}(x, y)=\left\{\begin{array}{ll}
 (0,0)^{T}, & \text { sinon. }
 \end{array}\right.
 ++++
-et les paramètres sont stem:[\nu=0.005] et stem:[T=40 .]
+et les paramètres sont stem:[\nu=0.05] et stem:[T=10s.]
 
 [start=2]
 . Programmer la méthode avec la toolbox fluid(CFD) en mode Navier-Stokes
-. Calculer le trainée et la portance, les afficher et commenter
-. Diminuer la viscosité du fluide(prenez trois valeurs différentes), qu'observez vous ?
+. Calculer le trainée et la portance(les composantes de la force qui s'applique sur l'obstacle), les afficher et commenter
+. Diminuer la viscosité du fluide(prenez quatre valeurs différentes stem:[5e-3, 5e-4, 1e-4, 5e-5]), qu'observez vous ? vous pourrez commenter en introduisant le nombre de Reynolds stem:[Re=\frac{\rho U L}{\nu}] avec stem:[\rho=1, U=1, L=0.4] et en vous document sur ce dernier.
+. Calculer le trainée et la portance(les composantes de la force qui s'applique sur l'obstacle), les afficher et commenter
+
+TIP: la force qui s'applique sur l'obstacle peut être calculée via l'étape de postprocessing de {feelpp}, voir http://docs.feelpp.org/toolboxes/0.108/cfd/toolbox/#_post_processing[ici].

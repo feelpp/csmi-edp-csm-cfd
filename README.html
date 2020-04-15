@@ -584,14 +584,14 @@ u &=g \text{ sur } \partial \Omega
 </div>
 </div>
 <div class="sect2">
-<h3 id="_partie_2_stokes_instationnaire">Partie 2: Stokes instationnaire.</h3>
+<h3 id="_partie_2_navier_stokes_instationnaire">Partie 2: Navier-Stokes instationnaire.</h3>
 <div class="paragraph">
 <p>On considère le problème suivant</p>
 </div>
 <div class="stemblock">
 <div class="content">
 \[\begin{aligned}
-\partial_{t} u-\nu \Delta u+\nabla p &amp;=f, &amp; &amp; \text { dans } \Omega \times[0, T] \\
+\partial_{t} u + ( u \cdot \nabla ) u -\nu \Delta u+\nabla p &amp;=f, &amp; &amp; \text { dans } \Omega \times[0, T] \\
 \nabla \cdot u &amp;=0 &amp; &amp; \\
 u &amp;=g_{D}, &amp; &amp; \operatorname{sur} \Gamma_{i n} \times[0, T] \\
 u &amp;=0, &amp; &amp; \operatorname{sur} \Gamma_{0} \times[0, T] \\
@@ -619,7 +619,7 @@ u(0, x) &amp;=u_{i n i t}(x), &amp; &amp; \operatorname{sur} \Gamma
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Effectuer une semi-discrétisation en temps et écrire le problème variationnel.</p>
+<p>Effectuer une semi-discrétisation en temps et écrire le problème variationnel. On approchera \(u^{n+1}\cdot \nabla u^{n+1}\) par \(u^{n}\cdot \nabla u^{n+1}\).</p>
 </li>
 </ol>
 </div>
@@ -660,7 +660,7 @@ sur le fluide : \(f=0\)</p>
 </div>
 </div>
 <div class="paragraph">
-<p>et les paramètres sont \(\nu=0.005\) et \(T=40 .\)</p>
+<p>et les paramètres sont \(\nu=0.05\) et \(T=40 .\)</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="2">
@@ -668,12 +668,27 @@ sur le fluide : \(f=0\)</p>
 <p>Programmer la méthode avec la toolbox fluid(CFD) en mode Navier-Stokes</p>
 </li>
 <li>
-<p>Calculer le trainée et la portance, les afficher et commenter</p>
+<p>Calculer le trainée et la portance(les composantes de la force qui s&#8217;applique sur l&#8217;obstacle), les afficher et commenter</p>
 </li>
 <li>
-<p>Diminuer la viscosité du fluide(prenez trois valeurs différentes), qu&#8217;observez vous ?</p>
+<p>Diminuer la viscosité du fluide(prenez quatre valeurs différentes \(5e-3, 5e-4, 2e-4, 1e-4\)), qu&#8217;observez vous ? vous pourrez commenter en introduisant le nombre de Reynolds \(Re=\frac{\rho U L}{\nu}\) avec \(\rho=1, U=1, L=0.4\) et en vous document sur ce dernier.</p>
+</li>
+<li>
+<p>Calculer le trainée et la portance(les composantes de la force qui s&#8217;applique sur l&#8217;obstacle), les afficher et commenter</p>
 </li>
 </ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+la force qui s&#8217;applique sur l&#8217;obstacle peut être calculée via l&#8217;étape de postprocessing de Feel++, voir <a href="http://docs.feelpp.org/toolboxes/0.108/cfd/toolbox/#_post_processing">ici</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -681,7 +696,7 @@ sur le fluide : \(f=0\)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-15 06:22:58 +0200
+Last updated 2020-04-15 06:41:21 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
