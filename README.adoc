@@ -4,6 +4,7 @@
 
 TIP: pour lire ce document en html, ouvrir le fichier `README.html` dans le repository.
 
+
 == Elasticité Linéaire
 
 === Partie 1
