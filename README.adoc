@@ -1,5 +1,5 @@
 :feelpp: Feel++
-= TP 3
+= TP Mécanique des Solides et Mécanique des Fluides
 :stem: latexmath
 
 TIP: pour lire ce document en html, ouvrir le fichier `README.html` dans le repository.
