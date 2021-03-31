@@ -2,10 +2,12 @@
 = TP Mécanique des Solides et Mécanique des Fluides
 :stem: latexmath
 
-TIP: pour lire ce document en html, ouvrir le fichier `README.html` dans le repository.
+TIP: l'énoncé est https://feelpp.github.io/csmi-edp-csm-cfd/[ici].
 
 
 == Elasticité Linéaire
+
+Le TP est à effectuer avec la toolbox `feelpp_toolbox_solid`.
 
 === Partie 1
 
